@@ -8,6 +8,16 @@ local tk, db, em, _, obj, L = MayronUI:GetCoreComponents();
 
 local table, ipairs, pairs, select, string, unpack, print = _G.table, _G.ipairs,
   _G.pairs, _G.select, _G.string, _G.unpack, _G.print;
+-- Compat: Retail moved addon APIs to C_AddOns
+if C_AddOns then
+  _G.IsAddOnLoaded = _G.IsAddOnLoaded or C_AddOns.IsAddOnLoaded
+  _G.LoadAddOn = _G.LoadAddOn or C_AddOns.LoadAddOn
+  _G.GetAddOnEnableState = _G.GetAddOnEnableState or C_AddOns.GetAddOnEnableState
+
+  -- Enable/Disable are also under C_AddOns on modern clients
+  _G.EnableAddOn = _G.EnableAddOn or C_AddOns.EnableAddOn
+  _G.DisableAddOn = _G.DisableAddOn or C_AddOns.DisableAddOn
+end
 local IsAddOnLoaded, EnableAddOn, LoadAddOn, DisableAddOn, ReloadUI =
   _G.IsAddOnLoaded, _G.EnableAddOn, _G.LoadAddOn, _G.DisableAddOn, _G.ReloadUI;
 local strsplit, tostring = _G.strsplit, _G.tostring;
