@@ -1,5 +1,18 @@
 -- luacheck: ignore self 143
 local _G = _G;
+-- Retail (Dragonflight/TWW) removed/changed some spell APIs.
+-- Provide a compat GetSpellInfo() for older addon code.
+if not GetSpellInfo and C_Spell and C_Spell.GetSpellInfo then
+  ---@param spellID number|string
+  ---@return string? name, string? rank, string? icon, number? castTime, number? minRange, number? maxRange, number? spellID
+  function GetSpellInfo(spellID)
+    local info = C_Spell.GetSpellInfo(spellID)
+    if not info then return nil end
+
+    -- Old GetSpellInfo returned: name, rank, icon, castTime, minRange, maxRange, spellId
+    return info.name, nil, info.iconID, nil, nil, nil, info.spellID or spellID
+  end
+end
 local MayronUI = _G.MayronUI;
 local tk, db, _, _, obj, L = MayronUI:GetCoreComponents();
 
