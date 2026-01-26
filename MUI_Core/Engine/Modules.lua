@@ -18,6 +18,10 @@ if C_AddOns then
   _G.EnableAddOn = _G.EnableAddOn or C_AddOns.EnableAddOn
   _G.DisableAddOn = _G.DisableAddOn or C_AddOns.DisableAddOn
 end
+if C_AddOns then
+  _G.GetAddOnMetadata = _G.GetAddOnMetadata or C_AddOns.GetAddOnMetadata
+  _G.GetAddOnInfo = _G.GetAddOnInfo or C_AddOns.GetAddOnInfo
+end
 local IsAddOnLoaded, EnableAddOn, LoadAddOn, DisableAddOn, ReloadUI =
   _G.IsAddOnLoaded, _G.EnableAddOn, _G.LoadAddOn, _G.DisableAddOn, _G.ReloadUI;
 local strsplit, tostring = _G.strsplit, _G.tostring;
