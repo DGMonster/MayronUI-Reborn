@@ -1,5 +1,14 @@
 -- luacheck: ignore self
 local _G = _G;
+-- luacheck: ignore self
+local _G = _G;
+
+-- Compat: Retail moved addon APIs to C_AddOns (must be before local caching)
+if C_AddOns then
+  _G.GetAddOnMetadata = _G.GetAddOnMetadata or C_AddOns.GetAddOnMetadata
+  _G.GetAddOnInfo     = _G.GetAddOnInfo     or C_AddOns.GetAddOnInfo
+  _G.GetNumAddOns     = _G.GetNumAddOns     or C_AddOns.GetNumAddOns
+end
 local MayronUI = _G.MayronUI;
 
 ---@class MayronUI.Toolkit
