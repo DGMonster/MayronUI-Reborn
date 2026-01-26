@@ -13,6 +13,31 @@ local IsAddOnLoaded, EnableAddOn, LoadAddOn, DisableAddOn, ReloadUI =
 local strsplit, tostring = _G.strsplit, _G.tostring;
 local collectgarbage = _G.collectgarbage;
 local InCombatLockdown = _G.InCombatLockdown;
+-- Compat: FillLocalizedClassList no longer exists in newer Retail
+if not _G.FillLocalizedClassList then
+  _G.FillLocalizedClassList = function(tbl, female)
+    if type(tbl) ~= "table" then return end
+
+    -- Modern Retail: use C_CreatureInfo.GetClassInfo
+    if C_CreatureInfo and C_CreatureInfo.GetClassInfo then
+      for classID = 1, 20 do
+        local info = C_CreatureInfo.GetClassInfo(classID)
+        if info and info.classFile then
+          tbl[info.classFile] = info.className
+        end
+      end
+      return
+    end
+
+    -- Fallback: use Blizzard localized class tables if available
+    local src = (female and _G.LOCALIZED_CLASS_NAMES_FEMALE) or _G.LOCALIZED_CLASS_NAMES_MALE
+    if type(src) == "table" then
+      for classFile, className in pairs(src) do
+        tbl[classFile] = className
+      end
+    end
+  end
+end
 local FillLocalizedClassList, UnitName = _G.FillLocalizedClassList, _G.UnitName;
 
 ---@class BaseModule : MayronObjects.Class
