@@ -1,5 +1,18 @@
 -- luacheck: ignore MayronUI self 143
 local _G = _G;
+-- Compat: Retail uses C_AddOns.* for addon queries
+if not _G.IsAddOnLoaded and C_AddOns and C_AddOns.IsAddOnLoaded then
+  _G.IsAddOnLoaded = C_AddOns.IsAddOnLoaded
+end
+
+-- optional, falls im Projekt genutzt:
+if not _G.LoadAddOn and C_AddOns and C_AddOns.LoadAddOn then
+  _G.LoadAddOn = C_AddOns.LoadAddOn
+end
+
+if not _G.GetAddOnEnableState and C_AddOns and C_AddOns.GetAddOnEnableState then
+  _G.GetAddOnEnableState = C_AddOns.GetAddOnEnableState
+end
 local MayronUI = _G.MayronUI;
 local tk, db, em, gui, obj, L = MayronUI:GetCoreComponents();
 local C_ToolTipsModule = MayronUI:RegisterModule("Tooltips", L["Tooltips"]);
